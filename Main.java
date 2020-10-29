@@ -64,6 +64,14 @@ public class Main implements Runnable, ActionListener{
   validateButton = new JButton("Validate");
   resetButton = new JButton("Reset");
 
+  // add an action listener to the buttons
+  validateButton.addActionListener(this);
+  resetButton.addActionListener(this);
+
+  // set the action command on the buttons
+  validateButton.setActionCommand("validate");
+  resetButton.setActionCommand("reset");
+
   // set the size and location of the buttons
   validateButton.setBounds(330, 10, 100, 35);
   resetButton.setBounds(330, 55, 100, 35);
@@ -87,7 +95,7 @@ public class Main implements Runnable, ActionListener{
   instructionArea.setEnabled(false);
 
   // create a bigger font ot user
-  biggerText = new Font("arial", Font.PLAIN, 20);
+  biggerText = new Font("arial", Font.PLAIN, 25);
 
   // set the font on the area I want to use it
   instructionArea.setFont(biggerText);
@@ -114,11 +122,51 @@ public class Main implements Runnable, ActionListener{
   frame.add(mainPanel);
 
   }
+  // checks to see if a triangle is valid giving the length of side a, b , and c
+  public boolean isValidTriangle(int a, int b, int c){
+    // check using the tringle inequality
+    if(a + b > c && a + c > b && b + c > a){
+      return true;
+    }else{
+      // invalid triangle
+      return false;
+    }
+  }
+
 
   // method called when a button is pressed
   public void actionPerformed(ActionEvent e){
     // get the command from the action
     String command = e.getActionCommand();
+
+    if(command.equals("validate")){
+      // get the text from each text boxes
+      String firstText = firstInput.getText();
+      String secondText = secondInput.getText();
+      String thirdText = thirdInput.getText();
+
+      // change the string into an integer
+      int sideA = Integer.parseInt(firstText);
+      int sideB = Integer.parseInt(secondText);
+      int sideC = Integer.parseInt(thirdText);
+
+      // using a method to check if the triangle is valid
+      boolean isValid = isValidTriangle(sideA, sideB, sideC);
+      // output the answer to the user
+      if(isValid){
+        outputArea.setText("This is a valid triangle");
+      }else{
+        outputArea.setText("This is an invalid triangle");
+      }
+
+
+    }else if(command.equals("reset")){
+      // clear all of the text in the text boxes
+      firstInput.setText("");
+      secondInput.setText("");
+      thirdInput.setText("");
+      outputArea.setText("");
+    }
 
   }
 
